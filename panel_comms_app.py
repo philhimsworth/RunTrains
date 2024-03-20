@@ -16,6 +16,8 @@ async def main():
 	await asyncio.gather(   sender_function(db, ser_writer),
                             reader_function(db, ser_reader))
 
+	#await asyncio.gather(   reader_function(db, ser_reader))
+    
 
 async def sender_function(db, ser):
 
@@ -37,7 +39,7 @@ async def sender_function(db, ser):
 			station_active = 1 if sections.is_section_active(new_section_state, sections.station_section) else 0
 			
 			msg = f'{auto_step_c1},{auto_next_step_ok_c1},{auto_step_c2},{auto_next_step_ok_c2},{station_active}\n'
-			await ser.write(msg.encode('utf-8'))
+			ser.write(msg.encode('utf-8'))
 			print(f'send: {msg}')
 			
 			current_section_state = new_section_state
@@ -60,11 +62,13 @@ async def reader_function(db, ser):
 				except Exception as e:
 					print("Rx: (unprintable)")
 				
-				if (line2.find("C1")):
+				if (line2.find("C1") != -1):
+					print("C1")
 					sections.next_auto_sequence_step(db, 1)
 					database.commit(db)
 
-				if (line2.find("C2")):
+				if (line2.find("C2") != -1):
+					print("C2")
 					sections.next_auto_sequence_step(db, 2)
 					database.commit(db)
 
