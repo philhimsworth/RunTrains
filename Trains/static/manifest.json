@@ -1,0 +1,22 @@
+{
+  "short_name": "Trains",
+  "name": "Trains",
+  "icons": [
+    {
+      "src": "/static/trains.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/static/trains_128.png",
+      "type": "image/png",
+      "sizes": "128x128 144x144"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ffffff",
+  "orientation": "landscape"
+}

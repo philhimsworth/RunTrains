@@ -1,0 +1,255 @@
+<table class="combinedtable">
+  <thead>
+    <tr>
+      <th class="combinedcolumnheader combinedrowcell">Routes</th>
+      <th class="combinedcolumnheader combinedrowcell">Station</th>
+      <th class="combinedcolumnheader combinedrowcell">Isolators</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="combinedrowcell">
+<table class="sectiontable">
+  <thead>
+    <tr>
+      <th class="sectioncolumnheader-sm">1</th>
+      <th class="sectioncolumnheader-sm">Off</th>
+      <th class="sectioncolumnheader-sm">2</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr {% if section_states[1]==1 %}class="controller1" {% elif section_states[1]==2 %}class="controller2"{% endif %}>
+      <td colspan="3" class="sectiontitle-sm"><span class="sectiondirection">&lt;&lt;</span>&nbsp;<span>Outer</span></td>
+    </tr>
+
+    <tr {% if section_states[1]==1 %}class="controller1" {% elif section_states[1]==2 %}class="controller2"{% endif %}>
+      <td class="sectioncolumn">
+          <input type="radio" name="section1" value="1" class="sectionradio" onclick='setSection(1, 1);' {% if section_states[1]==1 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section1" value="0" class="sectionradio" onclick='setSection(1, 0);' {% if section_states[1]==0 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section1" value="2" class="sectionradio" onclick='setSection(1, 2);' {% if section_states[1]==2 %}checked{% endif %} />
+      </td>
+    </tr>
+    
+    <tr {% if section_states[2]==1 %}class="controller1" {% elif section_states[2]==2 %}class="controller2"{% endif %}>
+      <td colspan="3" class="sectiontitle-sm"><span>Inner</span>&nbsp;<span class="sectiondirection">&gt;&gt;</span></td>
+    </tr>
+
+    <tr {% if section_states[2]==1 %}class="controller1" {% elif section_states[2]==2 %}class="controller2"{% endif %}>
+      <td class="sectioncolumn">
+          <input type="radio" name="section2" value="1" class="sectionradio" onclick='setSection(2, 1);' {% if section_states[2]==1 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section2" value="0" class="sectionradio" onclick='setSection(2, 0);' {% if section_states[2]==0 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section2" value="2" class="sectionradio" onclick='setSection(2, 2);' {% if section_states[2]==2 %}checked{% endif %} />
+      </td>
+    </tr>
+    
+    <tr {% if section_states[3]==1 %}class="controller1" {% elif section_states[3]==2 %}class="controller2"{% endif %}>
+      <td colspan="3" class="sectiontitle-sm">Crossover</td>
+    </tr>
+
+    <tr {% if section_states[3]==1 %}class="controller1" {% elif section_states[3]==2 %}class="controller2"{% endif %}>
+      <td class="sectioncolumn">
+          <input type="radio" name="section3" value="1" class="sectionradio" onclick='setSection(3, 1);' {% if section_states[3]==1 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section3" value="0" class="sectionradio" onclick='setSection(3, 0);' {% if section_states[3]==0 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section3" value="2" class="sectionradio" onclick='setSection(3, 2);' {% if section_states[3]==2 %}checked{% endif %} />
+      </td>
+    </tr>
+
+   <!-- Section 4 (slip) is controlled automatically -->
+
+   <tr {% if section_states[5]==1 %}class="controller1" {% elif section_states[5]==2 %}class="controller2"{% else %}class="controller3"{% endif %}>
+      <td colspan="3" class="sectiontitle-sm">
+	  {% if station_polarity==True %}
+            <a href='#' onclick='setStationPolarity(0);'>
+              <span class="sectiondirection">&lt;&lt;</span>
+            </a>
+          {% endif %}
+	  <span>Station</span>
+	  {% if station_polarity==False %}
+            <a href='#' onclick='setStationPolarity(1);'>
+              <span class="sectiondirection">&gt;&gt;</span>
+            </a>
+          {% endif %}	
+      </td>
+    </tr>
+
+    <tr {% if section_states[5]==1 %}class="controller1" {% elif section_states[5]==2 %}class="controller2"{% else %}class="controller3"{% endif %}>
+      <td class="sectioncolumn">
+          <input type="radio" name="section5" value="1" class="sectionradio" onclick='setSection(5, 1);' {% if section_states[5]==1 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+           <input type="radio" name="section5" value="0" class="sectionradio" onclick='setSection(5, 0);' {% if section_states[5]==0 %}checked{% endif %} />
+      </td>
+      <td class="sectioncolumn">
+          <input type="radio" name="section5" value="2" class="sectionradio" onclick='setSection(5, 2);' {% if section_states[5]==2 %}checked{% endif %} />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="sectioncolumn">
+          {% if auto_step_c1 != -1 %}
+            {% if auto_next_step_ok_c1 == True %}
+              <button name="auto_next_c1" onclick='autoNext(1);'><img src="/static/forward3.svg"/></button>
+            {% else %}
+              <button disabled><img src="/static/minus-circle.svg"></button>
+            {% endif %}
+          {% else %}
+            <button disabled><img src="/static/hand.svg"></button>
+          {% endif %}
+        <!--{% if auto_step_c1 == -1 %}-{% else %}{{auto_step_c1}}{% endif %}-->
+      </td>
+      <td class="sectioncolumn">
+        {% if auto_step_c1 != 0 or auto_step_c2 != 0 %}
+            <button name="reset" onclick='reset();'><img src="/static/stop2.svg" /></button>
+        {% endif %}
+      </td>
+      <td class="sectioncolumn">
+          {% if auto_step_c2 != -1 %}
+            {% if auto_next_step_ok_c2 == True %}
+              <button name="auto_next_c2" onclick='autoNext(2);'><img src="/static/forward3.svg" /></button>
+            {% else %}
+              <button disabled><img src="/static/minus-circle.svg"></button>
+            {% endif %}
+          {% else %}
+            <button disabled><img src="/static/hand.svg"></button>
+          {% endif %}
+        <!--{% if auto_step_c2 == -1 %}-{% else %}{{auto_step_c2}}{% endif %}-->
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+      
+      
+      </td>
+      
+      <!-- Middle column for station controls -->
+      <td class="combinedrowcell">
+      
+      
+  <table class="sectiontable">
+    <thead>
+      <tr>
+        <th class="stationcontrolcolumn-sm">Set</th>
+        <th class="stationlabelcolumn-sm">Route</th>
+      </tr>
+    </thead>
+    <tbody>
+   <!-- Main line to platform 1 -->
+   <tr {% if station_route==1 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route1" name="stationroute" value="1" class="stationradio" onclick='setStationRoute(1);' {% if station_route==1 %}checked{% endif %} />
+     </td>
+     <td><label for="route1" class="sectiontitle-sm">P1</label></td>
+   </tr>
+   <!-- Main line to platform 2 to end -->
+   <tr {% if station_route==2 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route2" name="stationroute" value="2" class="stationradio" onclick='setStationRoute(2);' {% if station_route==2 or station_route==0%}checked{% endif %} />
+     </td>
+     <td><label for="route2" class="sectiontitle-sm">P2</label></td>
+   </tr>
+   <!-- Platform 1 run around -->
+   <tr {% if station_route==3 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route3" name="stationroute" value="3" class="stationradio" onclick='setStationRoute(3);' {% if station_route==3 %}checked{% endif %} />
+     </td>
+     <td><label for="route3" class="sectiontitle-sm">P2 -> P1</label></td>
+   </tr>
+   <!-- Platform 1 headshunt -->
+   <tr {% if station_route==4 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route4" name="stationroute" value="4" class="stationradio" onclick='setStationRoute(4);' {% if station_route==4 %}checked{% endif %} />
+     </td>
+     <td><label for="route4" class="sectiontitle-sm">P1 Spur</label></td>
+   </tr>
+   <!-- Goods 1 -->
+   <tr {% if station_route==5 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route5" name="stationroute" value="5" class="stationradio" onclick='setStationRoute(5);' {% if station_route==5 %}checked{% endif %} />
+     </td>
+     <td><label for="route5" class="sectiontitle-sm">Goods 1</label></td>
+   </tr>
+   <!-- Goods 2 -->
+   <tr {% if station_route==6 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route6" name="stationroute" value="6" class="stationradio" onclick='setStationRoute(6);' {% if station_route==6 %}checked{% endif %} />
+     </td>
+     <td><label for="route6" class="sectiontitle-sm">Goods 2</label></td>
+   </tr>
+   <!-- Goods Loop -->
+   <tr {% if station_route==7 %}class="selectedstation"{% endif %}>
+     <td class="sectioncolumn">
+       <input type="radio" id="route7" name="stationroute" value="7" class="stationradio" onclick='setStationRoute(7);' {% if station_route==7 %}checked{% endif %} />
+     </td>
+     <td><label for="route7" class="sectiontitle-sm">Goods Loop</label></td>
+   </tr>
+    </tbody>
+</table>      
+      
+      </td>
+      <td class="combinedrowcell">
+      
+  <table class="sectiontable">
+    <thead>
+      <tr>
+        <th class="stationcontrolcolumn-sm">Isolated</th>
+        <th class="stationlabelcolumn-sm">Section</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Road end isolators -->
+      <tr {% if station_isolator_roads==1 %}class="isolated"{% endif %}>
+        <td class="sectioncolumn">
+          <input type="checkbox" id="roads" name="roads" value="1" class="stationradio" onclick='setIsolator("roads", this.checked);' {% if station_isolator_roads == 1 %}checked{% endif %} />
+        </td>
+        <td><label for="roads" class="sectiontitle-sm">Road Ends</label></td>
+      </tr>
+      <!-- P1 headshunt isolators -->
+      <tr {% if station_isolator_headshunt==1 %}class="isolated"{% endif %}>
+        <td class="sectioncolumn">
+          <input type="checkbox" id="headshunt" name="headshunt" value="1" class="stationradio" onclick='setIsolator("headshunt", this.checked);' {% if station_isolator_headshunt == 1 %}checked{% endif %} />
+        </td>
+        <td><label for="headshunt" class="sectiontitle-sm">Headshunt</label></td>
+      </tr>
+      <!-- Goods 2 / goods loop isolator -->
+      <tr {% if station_isolator_g2==1 %}class="isolated"{% endif %}>
+        <td class="sectioncolumn">
+          <input type="checkbox" id="g2_loop" name="g2_loop" value="1" class="stationradio" onclick='setIsolator("g2_loop", this.checked);'{% if station_isolator_g2 == 1 %}checked{% endif %} />
+        </td>
+        <td><label for="g2_loop" class="sectiontitle-sm">Goods 2</label></td>
+      </tr>
+      
+      <tr>
+        <td class="sectioncolumn">&nbsp;</td>
+      </tr>
+      <tr class="canalheader">
+        <td class="canalheaderrow" colspan="2">Canal Siding</td>
+      </tr>
+      <tr>
+        <td class="sectioncolumn">
+          <input type="checkbox" id="canal_siding" name="canal_siding" value="1" class="stationradio" onclick='setCanalSiding(this.checked);'{% if canal_siding == 1 %}checked{% endif %} />
+        </td>
+        <td><label for="canal_siding" class="sectiontitle-sm">Canal Siding</label></td>
+      </tr>
+    </tbody>
+  </table>
+      
+      
+      
+      </td>
+    </tr>
+  </tbody>
+</table>

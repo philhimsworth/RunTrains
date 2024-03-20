@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<p class="sectiontitle-sm"><a href="/control">Control</a>&nbsp;&middot;&nbsp;<a href="/teach"><b>Teach</b></a>&nbsp;&middot;&nbsp;<a href="/system">System</a></p>
+
+<table class="sectiontable">
+  <thead>
+    <tr>
+      <th class="sectioncolumnheader">ID</th>
+      <th class="sectioncolumnheader">Location</th>
+      <th class="sectioncolumnheader">S</th>
+      <th class="sectioncolumnheader">X</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for x in range(num_channels): %}
+    <tr>
+      <td class="sectioncolumn"><a href="channel?board={{board_list[x]}}&channel={{channel_list[x]}}">{{board_list[x]}} / {{channel_list[x]}}</a></td>
+      <td class="sectioncolumn">{{description_list[x]}}</td>
+      <td class="sectioncolumn">{{setpoint_s_list[x]}}</td>
+      <td class="sectioncolumn">{{setpoint_x_list[x]}}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+<p></p>
+
+<form name='add' action='teach' method='post'>
+  Board: <input type="number" class="numberinput" name="board" value="1"/>
+  Channel: <input type="number" class="numberinput" name="channel" value="1"/>
+  <input type="submit" name="add" value="Add">
+</form>
+
+
+{% endblock %}

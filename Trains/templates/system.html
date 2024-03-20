@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<p class="sectiontitle-sm"><a href="/control">Control</a>&nbsp;&middot;&nbsp;<a href="/teach">Teach</a>&nbsp;&middot;&nbsp;<a href="/system"><b>System</b></a></p>
+
+<form name='stationdirection' action='stationdirection' method='post'>
+  <input type="hidden" name="direction_setting" value="1" />
+  <label></label><input type="checkbox" id="station_direction_same_as_inner" name="station_direction_same_as_inner" value="1" class="stationradio" onchange='stationdirection.submit();' {% if station_direction_same_as_inner == 1 %}checked{% endif %}/> Station direction same as inner</label>
+  <p>Tick this if the direction of trains in the station should match that of trains on the inner track when activated together.</p>
+</form>
+
+<p>Section state: {{section_state}}</p>
+<p>Controller 1 auto state: {{auto_step_c1}} {{auto_next_step_ok_c1}}</p>
+<p>Controller 2 auto state: {{auto_step_c2}} {{auto_next_step_ok_c2}}</p>
+<p>
+<form name='shutdown' action='shutdown' method='post'>
+  <input type="submit" name="shutdown" value="Shutdown">
+</form>
+<form name='restart' action='restart' method='post'>
+  <input type="submit" name="restart" value="Restart">
+</form>
+</p>
+
+{%if status != None %}
+<p>{{status}}</p>
+{%endif%}
+
+<p>Python processes:</p>
+
+<p>
+{%for line in pgrep_results%}<div style="font-family: monospace">{{line.decode()}}</div>{%endfor%}
+</p>
+
+<p>Found i2c boards: {{i2c_boards}}</p>
+
+{% endblock %}

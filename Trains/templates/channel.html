@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<p class="sectiontitle-sm"><a href="/control">Control</a>&nbsp;&middot;&nbsp;<a href="/teach"><b>Teach</b></a>&nbsp;&middot;&nbsp;<a href="/system">System</a></p>
+
+<table class="sectiontable">
+  <tbody>
+    <tr>
+      <td colspan="2" class="channeltableheader">Channel</td>
+    </tr>
+    <tr>
+      <td class="channeltablecolumn">Board</td>
+      <td class="channeltablecolumn">{{board}}</td>
+    </tr>
+    <tr>
+      <td>Channel</td>
+      <td>{{channel}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<form name="set" action="channel" method="post">
+<input type="hidden" name="board" value="{{board}}" />
+<input type="hidden" name="channel" value="{{channel}}" />
+<table class="sectiontable">
+  <tbody>
+    <tr>
+      <td colspan="2" class="channeltableheader">Set Position</td>
+    </tr>
+    <tr>
+        <td class="channeltablecolumn">Position</td>
+        <td class="channeltablecolumn">
+          <input type="number" class="numberinput" name="angle" value={{last_value}} />
+        </td>
+    </tr>
+    <tr>
+      <td />
+      <td>
+          <input type="submit" name="set" value="Set" />
+        </td> 
+    </tr>
+   </tbody>
+  </table>
+</form>
+
+<form name="save" action="channel" method="post">
+<input type="hidden" name="board" value="{{board}}" />
+<input type="hidden" name="channel" value="{{channel}}" />
+<table class="sectiontable">
+  <tbody>
+    <tr>
+      <td colspan="2" class="channeltableheader">Save Setpoints</td>
+    </tr>
+    <tr>
+        <td class="channeltablecolumn">Description</td>  
+        <td class="channeltablecolumn"><input type="text" name="description" value="{{current_description}}" /></td>
+    </tr>
+    <tr>
+        <td>S</td>
+        <td><input type="number" class="numberinput" name="setpoint_s" value="{{current_setpoint_s}}" /></td>
+    </tr>
+    <tr>
+        <td>X</td>
+        <td><input type="number" class="numberinput" name="setpoint_x" value="{{current_setpoint_x}}" /></td>
+    </tr>
+    <tr>
+      <td />
+      <td><input type="submit" name="save" value="Save"></td>
+    </tr>
+  </tbody>
+</table>
+</form>
+
+{% endblock %}

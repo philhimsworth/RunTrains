@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<div id="controlsarea">Loading controls...</div>
+
+<p class="sectiontitle-sm"><a href="/control"><b>Control</b></a>&nbsp;&middot;&nbsp;<a href="/teach">Teach</a>&nbsp;&middot;&nbsp;<a href="/system">System</a></p>
+
+<script>
+
+  $(document).ready(function () {
+
+    updateControlsTable();
+
+  });
+
+  function updateControlsTable() {
+    $.ajax({
+      url: 'controlstable',
+      type: 'GET',
+      cache: false,
+      success: function (data) {
+
+        $('#controlsarea').html(data);
+      },
+      complete: function() { setTimeout(updateControlsTable, 3000); }
+    });
+  }
+
+  function setSection(section, controller) {
+    var postData = { 'section': section, 'controller': controller };
+    $.ajax({
+      url: 'setsection',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+  function autoNext(controller) {
+    var postData = { 'controller': controller };
+    $.ajax({
+      url: 'next',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+  function reset() {
+    var postData = { };
+    $.ajax({
+      url: 'reset',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+  function setStationRoute(route) {
+    var postData = { 'route': route };
+    $.ajax({
+      url: 'setstationroute',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+  function setIsolator(isolator, state) {
+    var postData = { 'isolator': isolator, 'state': state };
+    $.ajax({
+      url: 'setisolator',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+  function setCanalSiding(state) {
+    var postData = { 'state': state };
+    $.ajax({
+      url: 'setcanalsiding',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+    
+
+  function setStationPolarity(polarity) {
+    var postData = { 'polarity': polarity };
+    $.ajax({
+      url: 'setstationpolarity',
+      type: 'POST',
+      data: postData,
+      dataType: "text",
+      cache: false,
+      success: function (data) {
+        $('#controlsarea').html(data);
+      }
+    });
+  }
+
+</script>
+
+{% endblock %}
