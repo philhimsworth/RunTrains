@@ -62,15 +62,27 @@ async def reader_function(db, ser):
 				except Exception as e:
 					print("Rx: (unprintable)")
 				
-				if (line2.find("C1") != -1):
-					print("C1")
-					sections.next_auto_sequence_step(db, 1)
-					database.commit(db)
+				if (line2.find("C1") != -1 or line2.find("C2") != -1):
+					
+					section_state = database.get_state(db, "sections")
+				
+					if (line2.find("C1") != -1):
+						auto_step_c1 = sections.identify_auto_sequence_step(1, section_state)
+						if sections.is_next_auto_sequence_step_available(1, section_state, auto_step_c1):
+							print("C1")
+							sections.next_auto_sequence_step(db, 1)
+							database.commit(db)
+						else:
+							print("C1 is not ready")
 
-				if (line2.find("C2") != -1):
-					print("C2")
-					sections.next_auto_sequence_step(db, 2)
-					database.commit(db)
+					if (line2.find("C2") != -1):
+						auto_step_c2 = sections.identify_auto_sequence_step(2, section_state)
+						if sections.is_next_auto_sequence_step_available(2, section_state, auto_step_c2):
+							print("C2")
+							sections.next_auto_sequence_step(db, 2)
+							database.commit(db)
+						else:
+							print("C2 is not ready")
 
 		except Exception as e:
 			print(f'reader_function exception: {e}')
